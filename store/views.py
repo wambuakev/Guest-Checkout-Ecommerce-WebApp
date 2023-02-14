@@ -1,14 +1,30 @@
 from django.http import JsonResponse
 from django.shortcuts import render
+from django.contrib.auth.forms import UserCreationForm
 import datetime
 import json
 from .models import *
 from .utils import cookieCart, cartData, guestOrder
 
 # Create your views here.
+def registerPage(request):
+    form = UserCreationForm()
+    
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+    
+    context = {'form':form}
+    return render(request, 'store/register.html', context)
+
+def loginPage(request):
+    form = UserCreationForm()
+    context = {}
+    return render(request, 'store/login.html', context)
 
 def store(request):
-    
+
     data = cartData(request)
     
     cartItems = data['cartItems']
